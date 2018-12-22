@@ -39,20 +39,28 @@
                         <?php $__currentLoopData = $alerts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php $__currentLoopData = $s; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                           <td><?php echo e($a->nameSensor); ?></td>
-                           <td><?php echo e($a->Description); ?></td>
-                           <td><?php echo e($a->Message); ?></td>
-                           <td><?php echo e($a->min); ?><--><?php echo e($a->max); ?></td>
-                           <td>Actions</td>
-                       </tr>
-                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                   </tbody>
+                         <td><?php echo e($a->nameSensor); ?></td>
+                         <td><?php echo e($a->Description); ?></td>
+                         <td><?php echo e($a->Message); ?></td>
+                         <td><?php echo e($a->min); ?><--><?php echo e($a->max); ?></td>
+                         <td>
+                             <form action="<?php echo e(route('deleteAlert')); ?>" method="POST">
+                                <?php echo csrf_field(); ?>
+                                <input type="hidden" name="id" value="<?php echo e($a->id); ?>">
+                                <a class="btn btn-danger" style="margin-bottom: 3px;" onclick="this.parentNode.submit();">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                                <a class="btn btn-success" href="<?php echo e(route('editAlert',$a->id)); ?>" style="margin-bottom: 3px;"><i class="fas fa-pencil-alt"></i></a>
+                            </form>
+                        </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </tbody>
 
-               </table>
-           </div>
-       </div>
-   </div>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 <script src="/js/dataTables.rowGroup.min.js"></script>
@@ -84,7 +92,7 @@
                     "pre":  [[ 0, 'asc' ]]
                 },
                 "language": {
-                    
+
                     "info": "Showing _START_ to _END_ Total: _TOTAL_ ",
                     "paginate": {
                         "previous": "<",
