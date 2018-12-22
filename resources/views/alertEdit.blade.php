@@ -48,7 +48,7 @@
                             </div>
 
                             <center>
-                                <input type="submit" class="btn btn-outline-success" name="submit" value="Create" >
+                                <input type="submit" class="btn btn-outline-success" name="submit" value="Update" >
                                 <a class="btn btn-outline-dark" href="{{ route('listAlerts') }}" >Cancel</a>
                             </center>
                         </form>

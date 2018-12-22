@@ -46,7 +46,7 @@
                                 <input type="number" class="form-control col-md-12" id="Threshold" step="0.01" name="Threshold" required min="0" value="{{$sensor->threshold}}">
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-outline-success" name="submit" value="Edit" style="margin-left: 25%;">
+                        <input type="submit" class="btn btn-outline-success" name="submit" value="Update" style="margin-left: 25%;">
                         <a class="btn btn-outline-dark" href="{{ route('listSensores') }}" >Cancel</a>
                     </form>
 

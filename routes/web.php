@@ -18,6 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/userEdit', 'HomeController@editUser')->name('editUser')->middleware('auth');
+Route::post('/userEdit', 'HomeController@editUserSave')->name('userEditSave')->middleware('auth');
 ///////////////////////////////////////////////////////////////////
 Route::get('/sensors', 'SensorController@list')->name('listSensores')->middleware('auth');
 Route::get('/sensors/edit/{id}', 'SensorController@edit')->name('editSensor')->middleware('auth');

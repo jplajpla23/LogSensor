@@ -68,12 +68,12 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right"  aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('editUser') }}"> <i class="fas fa-users-cog"></i> Account Settings</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
                             </a>
-
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>

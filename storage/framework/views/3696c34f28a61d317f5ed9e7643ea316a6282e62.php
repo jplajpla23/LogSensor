@@ -68,13 +68,13 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right"  aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="<?php echo e(route('editUser')); ?>"> <i class="fas fa-users-cog"></i> Account Settings</a>
                                 <a class="dropdown-item" href="<?php echo e(route('logout')); ?>"
                                 onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt"></i> <?php echo e(__('Logout')); ?>
 
                             </a>
-
                             <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
                                 <?php echo csrf_field(); ?>
                             </form>
