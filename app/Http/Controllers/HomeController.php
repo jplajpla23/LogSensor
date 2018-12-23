@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use App\Sensor;
+use App\History;
 class HomeController extends Controller
 {
     /**
@@ -25,7 +27,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $snesors=Sensor::all()->where('user_id',Auth::user()->id);
+        foreach ($snesors as $s) {
+            $history[$s->id]=History::all()->where('sensors_id',$s->id);
+            $historynames[$s->id]=$s->name;
+        }
+        return view('home',compact('history','historynames'));
     }
     public function editUser()
     {

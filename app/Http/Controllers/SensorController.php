@@ -16,10 +16,16 @@ class SensorController extends Controller
     public function list()
     {
     	$sensors=Sensor::all()->where('user_id',Auth::user()->id);
-       foreach ($sensors as $sensor) {
+     foreach ($sensors as $sensor) {
         $last=History::all()->where('sensors_id',$sensor->id)->last();
-        $sensor->lastValue=$last->value;
-        $sensor->At=$last->created_at;
+        if($last !=null){
+            $sensor->lastValue=$last->value;
+            $sensor->At=$last->created_at;
+        }else{
+           $sensor->lastValue="-";
+           $sensor->At="-";
+       }
+
         $dt[$sensor->id]=History::select('value','created_at')->where('sensors_id', $sensor->id)->get();
     }
     return view('listSensors',compact('sensors','dt'));
@@ -27,14 +33,14 @@ class SensorController extends Controller
 public function newSave(Request $request)
 {
 
- $validator = Validator::make($request->all(), [
+   $validator = Validator::make($request->all(), [
     'name' => 'required|string',
     'mac' => 'required|string|unique:sensors',
     'min' => 'required|numeric',
     'max' => 'required|numeric',
     'Threshold' => 'required|numeric',
 ]);
- if ($validator->fails()) {
+   if ($validator->fails()) {
     return redirect()->route('listSensores')
     ->withErrors($validator)
     ->withInput();
@@ -57,10 +63,10 @@ return redirect()->route('listSensores')->withSuccess('Sensor created with Succe
 }
 public function delete(Request $request)
 {
-   $validator = Validator::make($request->all(), [
+ $validator = Validator::make($request->all(), [
     'id' => 'required|integer',
 ]);
-   if ($validator->fails()) {
+ if ($validator->fails()) {
     return redirect()->route('listSensores');
 }
 Alert::where('sensors_id',$request->id)->delete();
@@ -163,8 +169,8 @@ public function newReading(Request $request)
             $data=['title' => "Alert for Sensor", 'data' => $h,'sensor'=>$sensor,'alert'=>$alert];
             
             Mail::send('emails.email', $data, function($message) use($user){
-                    $message->to($user->email, $user->name)->subject('Log Sensor Alerts!!');
-                });
+                $message->to($user->email, $user->name)->subject('Log Sensor Alerts!!');
+            });
         }
     }
     return response()->json(['success' => 'success', 200]);}

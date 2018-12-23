@@ -36,6 +36,7 @@
                             <style type="text/css">
                             .
                         </style>
+                        @isset($alerts)
                         @foreach ($alerts as $s)
                         @foreach ($s as $a)
                         <tr>
@@ -55,6 +56,7 @@
                         </tr>
                         @endforeach
                         @endforeach
+                        @endisset
                     </tbody>
 
                 </table>
