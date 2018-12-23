@@ -35,8 +35,14 @@
                 <a class="navbar-brand" href="<?php echo e(route('home')); ?>">
                     LogSensor
                 </a>
-                <a  href="<?php echo e(route('listSensores')); ?>" style="margin-right: 1vw;color: red;"> <i class="fas fa-wifi"></i> Sensors</a>
+                <?php if(Auth::check()): ?>
+                 <a  href="<?php echo e(route('listSensores')); ?>" style="margin-right: 1vw;color: red;"> <i class="fas fa-wifi"></i> Sensors</a>
                 <a  href="<?php echo e(route('listAlerts')); ?>"> <i class="fas fa-bell"></i> Alerts</a>
+                <?php else: ?>
+                
+                <?php endif; ?>
+
+               
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="<?php echo e(__('Toggle navigation')); ?>">
                     <span class="navbar-toggler-icon"></span>
                 </button>

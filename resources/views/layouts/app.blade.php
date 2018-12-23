@@ -35,8 +35,14 @@
                 <a class="navbar-brand" href="{{ route('home') }}">
                     LogSensor
                 </a>
-                <a  href="{{route('listSensores')}}" style="margin-right: 1vw;color: red;"> <i class="fas fa-wifi"></i> Sensors</a>
+                @if (Auth::check())
+                 <a  href="{{route('listSensores')}}" style="margin-right: 1vw;color: red;"> <i class="fas fa-wifi"></i> Sensors</a>
                 <a  href="{{route('listAlerts')}}"> <i class="fas fa-bell"></i> Alerts</a>
+                @else
+                
+                @endif
+
+               
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>

@@ -1,5 +1,6 @@
 
 <?php $__env->startSection('content'); ?>
+
 <div class="container">
     <span id="error" style="display: none!important;"><?php echo e($errors->any()); ?></span>
     <div class="row justify-content-center">
@@ -94,23 +95,43 @@
                                         <a class="btn btn-danger" style="margin-bottom: 3px;" onclick="this.parentNode.submit();">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
-                                    <a class="btn btn-success" style="margin-bottom: 3px;" href="<?php echo e(route('editSensor',$s->id)); ?>"><i class="fas fa-pencil-alt"></i></a><br>
-                                    <a class="btn btn-info" style="margin-bottom: 3px;"><i class="fas fa-chart-area"></i></a>
-                                    <a href="<?php echo e(route('createAlert',$s->id)); ?>" class="btn btn-warning" style="margin-bottom: 3px;"><i class='fas fa-bell'></i><i class='fas fa-plus'></i></a>
+                                        <a class="btn btn-success" style="margin-bottom: 3px;" href="<?php echo e(route('editSensor',$s->id)); ?>"><i class="fas fa-pencil-alt"></i></a><br>
+                                        <a class="btn btn-info" style="margin-bottom: 3px;" onclick="clickModal(this);" data-val="<?php echo e($dt[$s->id]->implode('value', ', ')); ?>" data-data="<?php echo e($dt[$s->id]->implode('created_at', ', ')); ?>"><i class="fas fa-chart-area"></i></a>
+                                        <a href="<?php echo e(route('createAlert',$s->id)); ?>" class="btn btn-warning" style="margin-bottom: 3px;"><i class='fas fa-bell'></i><i class='fas fa-plus'></i></a>
                                     </form>
 
-                                    </td>
-                                </tr>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                            </tbody>
-                        </thead>
-                    </table>
-                </div>
+                        </tbody>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
 </div>
+</div>
+<div id="myModal" class="modal fade" role="dialog" >
+  <div class="modal-dialog" style="width: 80vw!important;max-width: 80vw!important;">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Readings</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body" style="width: 100%;">
+        <div id="chart_div" style="width: 100%!important;" ></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+</div>
+
+</div>
+</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     var jQuery_2_1_4 = $.noConflict(true);
     jQuery_2_1_4(document).ready(function() {
@@ -120,23 +141,65 @@
             show();
         }
     } );
-    function minchange($this)
+    var dataa=[];
+    function clickModal($this)
     {
-        document.getElementById('max').min=$this.value;
+        dataa=[];
+        var dates=$this.getAttribute('data-data').split(', ');
+        var values=$this.getAttribute('data-val').split(', ');
+        for (var i = 0; i < dates.length; i++) {
+            dataa[i]=[new Date(dates[i]),parseFloat(values[i])];
+        }
+
+        $("#myModal").modal()
+        google.charts.load('current', {packages: ['corechart', 'line']});
+        //dataa=
+        google.charts.setOnLoadCallback(drawBasic);
+
     }
-    function maxinchange($this)
-    {
-        document.getElementById('min').max=$this.value;
-    }
-    function show()
-    {
-        document.getElementById('form').style.display="block";
-    }
-    function hide()
-    {
-        document.getElementById('form').style.display="none";
-    }
+    function drawBasic() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('datetime', 'DateTime');
+      data.addColumn('number', 'Value');
+      data.addRows(
+        dataa);
+
+      var options = {
+        hAxis: {
+          title: 'DateTime'
+      },
+      vAxis: {
+          title: 'Value'
+      }
+  };
+
+  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+  chart.draw(data, options);
+}
+function minchange($this)
+{
+    document.getElementById('max').min=$this.value;
+}
+function maxinchange($this)
+{
+    document.getElementById('min').max=$this.value;
+}
+function show()
+{
+    document.getElementById('form').style.display="block";
+}
+function hide()
+{
+    document.getElementById('form').style.display="none";
+}
+
 </script>
+
+
+
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

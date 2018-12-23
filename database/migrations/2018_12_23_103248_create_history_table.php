@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAlertsTable extends Migration
+class CreateHistoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateAlertsTable extends Migration
      */
     public function up()
     {
-        Schema::create('alerts', function (Blueprint $table) {
+        Schema::create('history', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('sensors_id');
-            $table->foreign('sensors_id')->references('id')->on('sensors');
-            $table->string('Description');
-            $table->string('Message');
-            $table->float('min',8,2);
-            $table->float('max',8,2);
+            //$table->foreign('sensors_id')->references('id')->on('sensors');
+            $table->float('value',8,2);
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateAlertsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('alerts');
+        Schema::dropIfExists('history');
     }
 }
