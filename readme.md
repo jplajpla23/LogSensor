@@ -9,7 +9,7 @@ LogSensor is a open-source Cloud Platform based in Laravel Framework to send SMT
 ### Tech
 
 * Laravel
-
+* PostGre SQL
 ### Installation
 
 Only need create a webserver with laravel and paste the project and run migrations
